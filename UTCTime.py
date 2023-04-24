@@ -1,5 +1,16 @@
 from datetime import datetime, timedelta
 import msvcrt
+import ctypes
+
+kernel32 = ctypes.windll.kernel32
+
+def set_color(color):
+    kernel32.SetConsoleTextAttribute(kernel32.GetStdHandle(-11), color)
+
+FOREGROUND_BLUE = 0x01
+FOREGROUND_GREEN = 0x02
+FOREGROUND_RED = 0x04
+FOREGROUND_INTENSITY = 0x08
 
 UTC_Minus5 = datetime.now()
 UTC_0 = datetime.now()
@@ -53,11 +64,17 @@ def main():
         CalcTime(timedelta(hours=-9))
         
     print("\n-------------------------------")
+    set_color(FOREGROUND_GREEN)
     print("UTC-5 :", UTC_Minus5)
+    set_color(FOREGROUND_BLUE | FOREGROUND_INTENSITY)
     print("UTC+0 :", UTC_0)
+    set_color(FOREGROUND_GREEN | FOREGROUND_RED)
     print("UTC+1 :", UTC_Plus1)
+    set_color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_GREEN)
     print("UTC+8 :", UTC_Plus8)
+    set_color(FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY)
     print("UTC+9 :", UTC_Plus9)
+    set_color(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN)
     print("-------------------------------")
     
     print("\n\n아무 키나 입력하면 종료됩니다.")
